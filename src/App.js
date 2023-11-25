@@ -151,9 +151,9 @@ function App() {
   }, [guesses, randomWord]);
 
   return (
-    <div className="app">
+    <div className="main">
       {randomWord ? (
-        <>
+        <div className="app">
           <h2 className="title">🤔 Guess the Word!</h2>
           <div className="blocks">
             {[...Array(6)].map((_, index) => (
@@ -218,10 +218,16 @@ function App() {
               <button onClick={() => window.location.reload()}>New Game</button>
             </div>
           )}
-        </>
+        </div>
       ) : (
-        <div className="loader"></div>
+        <div className="full-page">
+          <div className="loader" />
+        </div>
       )}
+
+      <footer className="footer">
+        <p className="footer-text">Made with ❤️ by Soham Bhikadiya</p>
+      </footer>
     </div>
   );
 }
