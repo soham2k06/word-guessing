@@ -147,6 +147,7 @@ button {
   }
   &:disabled {
     pointer-events: none;
+    filter: brightness(50%);
   }
   &:active {
     transform: scale(105%);
@@ -277,12 +278,15 @@ button {
     font-size: 16px;
   }
   .keyboard {
-    margin-top: 20px;
+    margin-top: 12px;
     gap: 6px;
   }
-  .input-container {
-    margin-top: 20px;
+  .input-container,
+  .error,
+  .result {
+    margin-top: 12px;
   }
+
   .word-input {
     padding: 4px 8px;
     font-size: 16px;
@@ -299,7 +303,14 @@ button {
     flex-direction: column;
   }
   button {
-    gap: 2px;
+    gap: 6px;
     padding: 6px 12px;
+  }
+  .btn-loader {
+    width: 16px;
+    height: 16px;
+    &::before {
+      border: 2px solid #0000004d;
+    }
   }
 }

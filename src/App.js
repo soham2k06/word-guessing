@@ -196,11 +196,11 @@ function App() {
                 />
                 <button
                   onClick={makeGuess}
-                  disabled={attempts === 0}
+                  disabled={isLoading || attempts === 0}
                   className="btn-guess"
                 >
                   {isLoading && <div className="loader btn-loader"></div>}
-                  <span>Make Guess</span>
+                  <span>{isLoading ? "Guessing..." : "Make Guess"}</span>
                 </button>
               </form>
               {!!error && <div className="error">{error}</div>}
@@ -209,13 +209,17 @@ function App() {
           {isLost && (
             <div className="result result-lose">
               <p>Game over! The word was: {randomWord}</p>
-              <button onClick={() => window.location.reload()}>New Game</button>
+              <button onClick={() => window.location.reload()}>
+                <i class="fa">&#xf021;</i>
+              </button>
             </div>
           )}
           {isGuessedCorrect && (
             <div className="result result-win">
               <p>Congratulations! You guessed the word!</p>
-              <button onClick={() => window.location.reload()}>New Game</button>
+              <button onClick={() => window.location.reload()}>
+                <i class="fa">&#xf021;</i>
+              </button>
             </div>
           )}
         </div>
