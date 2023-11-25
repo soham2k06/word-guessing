@@ -262,7 +262,7 @@ button {
   justify-content: center;
 }
 
-@media only screen and (max-width: 756px) {
+@media only screen and (max-width: 536px) {
   .app {
     padding: 8px;
   }
