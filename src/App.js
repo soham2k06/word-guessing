@@ -226,7 +226,7 @@ function App() {
       )}
 
       <footer className="footer">
-        <p className="footer-text">Made with ❤️ by Soham Bhikadiya</p>
+        <p>Made with ❤️ by Soham Bhikadiya</p>
       </footer>
     </div>
   );
