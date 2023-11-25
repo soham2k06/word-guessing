@@ -30,6 +30,7 @@ body {
   text-align: center;
   font-size: 40px;
   margin-bottom: 24px;
+  color: #eef;
 }
 
 .blocks {
@@ -263,6 +264,9 @@ button {
   .app {
     padding: 12px;
   }
+  .title {
+    font-size: 32px;
+  }
   .blocks-row {
     padding: 6px 0;
   }
@@ -270,9 +274,24 @@ button {
     width: 40px;
     height: 40px;
   }
+  .keyboard {
+    margin-top: 20px;
+    gap: 6px;
+  }
+  .input-container {
+    margin-top: 20px;
+  }
+  .word-input {
+    padding: 4px 8px;
+    font-size: 16px;
+  }
+  .keys-row {
+    gap: 6px;
+  }
   .key {
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
   }
   .footer {
     flex-direction: column;
