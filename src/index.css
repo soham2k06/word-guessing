@@ -14,7 +14,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #333337;
+  background-color: #334;
   color: white;
 }
 
@@ -100,7 +100,7 @@ body {
   width: 40px;
   height: 40px;
   border: 1px solid currentColor;
-  color: #aaa;
+  color: #aab;
   border-radius: 5px;
   transition: all 0.2s;
 }
@@ -126,7 +126,10 @@ body {
 }
 
 button {
-  background: #aaa;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #bbc;
   font-size: 16px;
   padding: 12px 24px;
   border: none;
@@ -149,22 +152,24 @@ button {
   background: transparent;
   padding: 12px;
   font-size: 18px;
-  border: 1px solid #aaa;
+  border: 1px solid #aab;
   border-radius: 5px;
   transition: all 0.2s ease-out;
   &::placeholder {
-    color: #aaa;
+    color: #aab;
   }
   &:focus {
-    outline: 2px solid #aaa;
+    outline: 2px solid #aab;
     outline-offset: 2px;
   }
 }
 
 .result {
-  display: grid;
+  margin-top: 36px;
+  display: flex;
   place-items: center;
   font-weight: 600;
+  gap: 8px;
 }
 .result-lose {
   color: #fd4e4e;
@@ -212,5 +217,37 @@ button {
   }
   100% {
     clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 0);
+  }
+}
+
+.error {
+  color: #fd4e4e;
+  margin-top: 16px;
+  text-align: center;
+}
+
+.btn-loader {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  &::before {
+    border: 3px solid black;
+  }
+}
+
+@media only screen and (max-width: 756px) {
+  .app {
+    padding: 12px;
+  }
+  .blocks-row {
+    padding: 6px 0;
+  }
+  .word-block {
+    width: 40px;
+    height: 40px;
+  }
+  .key {
+    width: 28px;
+    height: 28px;
   }
 }

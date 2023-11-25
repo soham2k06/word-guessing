@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 const getRandomWord = async () => {
   try {
@@ -13,33 +13,70 @@ const getRandomWord = async () => {
   }
 };
 
+const validateWord = async (word) => {
+  try {
+    const response = await fetch(
+      `https://api.datamuse.com/words?sp=${word}&max=1`
+    );
+
+    const data = await response.json();
+
+    return data.length > 0 && data[0].word.toLowerCase() === word.toLowerCase();
+  } catch (error) {
+    console.error("Error checking word:", error);
+  }
+};
+
 const rows = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"];
 
 function App() {
-  const [randomWord, setRandomWord] = useState("");
+  const [randomWord, setRandomWord] = useState(false);
   const [guesses, setGuesses] = useState([]);
   const [currentGuess, setCurrentGuess] = useState("");
   const [attempts, setAttempts] = useState(6);
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const [fullCorLetters, setFullCorLetters] = useState([]);
   const [halfCorLetters, setHalfCorLetters] = useState([]);
   const [wrongLetters, setWrongLetters] = useState([]);
 
-  const isGuessed = randomWord === currentGuess;
+  const [isGuessedCorrect, setIsGuessedCorrect] = useState(false);
   const isLost = attempts === 0;
 
   const handleInputChange = (event) => {
-    if (!/^[a-zA-Z]+$/.test(event.target.value)) return;
-    setCurrentGuess(event.target.value.toUpperCase());
+    const inputValue = event.target.value;
+
+    // Check if the input is empty or contains only alphabets
+    if (inputValue === "" || /^[a-zA-Z]+$/.test(inputValue)) {
+      setCurrentGuess(inputValue.toUpperCase());
+    }
   };
 
-  const makeGuess = () => {
+  const makeGuess = async (e) => {
+    e.preventDefault();
     if (currentGuess.length === 5 && attempts > 0) {
-      const updatedGuesses = [...guesses, currentGuess];
-      setGuesses(updatedGuesses);
-      setAttempts(attempts - 1);
-      setCurrentGuess("");
+      try {
+        setIsLoading(true);
+        const isValid = await validateWord(currentGuess);
+        setIsLoading(false);
+        if (isValid) {
+          const updatedGuesses = [...guesses, currentGuess];
+          setGuesses(updatedGuesses);
+          setAttempts(attempts - 1);
+          setCurrentGuess("");
+          setError("");
+        } else {
+          setCurrentGuess("");
+          setError(`Word '${currentGuess}' is not vaild!`);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      setError("Entered Guess should contain exact 5 letters!");
     }
+    setIsGuessedCorrect(currentGuess === randomWord);
   };
 
   const renderGuessedWord = (guess) => {
@@ -48,36 +85,29 @@ function App() {
       .fill("")
       .map((_, index) => (index < guess.length ? guess[index] : ""));
 
-    return (
-      <>
-        {Array(5)
-          .fill("")
-          .map((_, i) => {
-            const isHalfCorrect = randomWord && randomWord.includes(guess[i]);
-            const isFullCorrect = randomWord && randomWord[i] === guess[i];
-            const isWrong =
-              randomWord &&
-              !isFullCorrect &&
-              !isHalfCorrect &&
-              guess.length > 0;
+    return Array(5)
+      .fill("")
+      .map((_, i) => {
+        const isHalfCorrect = randomWord && randomWord.includes(guess[i]);
+        const isFullCorrect = randomWord && randomWord[i] === guess[i];
+        const isWrong =
+          randomWord && !isFullCorrect && !isHalfCorrect && guess.length > 0;
 
-            let className = "";
-            if (isFullCorrect) {
-              className = "word-exact";
-            } else if (isHalfCorrect) {
-              className = "word-half";
-            } else if (isWrong) {
-              className = "word-wrong";
-            }
+        let className = "";
+        if (isFullCorrect) {
+          className = "word-exact";
+        } else if (isHalfCorrect) {
+          className = "word-half";
+        } else if (isWrong) {
+          className = "word-wrong";
+        }
 
-            return (
-              <div key={i} className={`word-block ${className}`}>
-                {allEnteredLetters[i]}
-              </div>
-            );
-          })}
-      </>
-    );
+        return (
+          <div key={i} className={`word-block ${className}`}>
+            {allEnteredLetters[i]}
+          </div>
+        );
+      });
   };
 
   useEffect(() => {
@@ -102,7 +132,6 @@ function App() {
         for (let i = 0; i < guess.length; i++) {
           const isHalfCorrect = randomWord && randomWord.includes(guess[i]);
           const isFullCorrect = randomWord && randomWord[i] === guess[i];
-          console.log(isHalfCorrect, randomWord, guess[i]);
           if (isFullCorrect) {
             fullyCorrect.push(guess[i]);
           } else if (isHalfCorrect) {
@@ -153,25 +182,28 @@ function App() {
               </div>
             ))}
           </div>
-
-          {isLost || isGuessed || (
-            <div className="input-container">
-              <input
-                type="text"
-                maxLength="5"
-                placeholder="Enter a 5-letter word"
-                value={currentGuess}
-                onChange={handleInputChange}
-                disabled={attempts === 0}
-                className="word-input"
-              />
-              <button
-                onClick={makeGuess}
-                disabled={attempts === 0}
-                className="btn-guess"
-              >
-                Make Guess
-              </button>
+          {isLost || isGuessedCorrect || (
+            <div>
+              <form onSubmit={makeGuess} className="input-container">
+                <input
+                  type="text"
+                  maxLength="5"
+                  placeholder="Enter a 5-letter word"
+                  value={currentGuess}
+                  onChange={handleInputChange}
+                  disabled={attempts === 0}
+                  className="word-input"
+                />
+                <button
+                  onClick={makeGuess}
+                  disabled={attempts === 0}
+                  className="btn-guess"
+                >
+                  {isLoading && <div className="loader btn-loader"></div>}
+                  <span>Make Guess</span>
+                </button>
+              </form>
+              {!!error && <div className="error">{error}</div>}
             </div>
           )}
           {isLost && (
@@ -180,7 +212,7 @@ function App() {
               <button onClick={() => window.location.reload()}>New Game</button>
             </div>
           )}
-          {isGuessed && (
+          {isGuessedCorrect && (
             <div className="result result-win">
               <p>Congratulations! You guessed the word!</p>
               <button onClick={() => window.location.reload()}>New Game</button>
