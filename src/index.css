@@ -68,7 +68,7 @@ body {
   font-size: 24px;
   border-radius: 5px;
   text-transform: uppercase;
-  font-weight: 600;
+  font-weight: 800;
   transition: all 0.2s;
 }
 
@@ -231,6 +231,7 @@ button {
   color: #fd4e4e;
   margin-top: 16px;
   text-align: center;
+  font-weight: 600;
 }
 
 .btn-loader {
@@ -266,11 +267,16 @@ button {
     padding: 8px;
   }
   .title {
-    font-size: 24px;
-    margin-bottom: 12px;
+    font-size: 20px;
+    margin-bottom: 4px;
+  }
+  .blocks {
+    padding: 6px;
   }
   .blocks-row {
-    padding: 6px 0;
+    padding: 4px 0;
+    border: none !important;
+    gap: 4px;
   }
   .word-block {
     width: 32px;
