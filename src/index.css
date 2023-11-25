@@ -262,17 +262,19 @@ button {
 
 @media only screen and (max-width: 756px) {
   .app {
-    padding: 12px;
+    padding: 8px;
   }
   .title {
-    font-size: 32px;
+    font-size: 24px;
+    margin-bottom: 12px;
   }
   .blocks-row {
     padding: 6px 0;
   }
   .word-block {
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
   }
   .keyboard {
     margin-top: 20px;
@@ -295,5 +297,9 @@ button {
   }
   .footer {
     flex-direction: column;
+  }
+  button {
+    gap: 2px;
+    padding: 6px 12px;
   }
 }
