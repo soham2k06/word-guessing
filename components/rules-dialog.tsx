@@ -11,7 +11,7 @@ import {
 
 function RulesDialog() {
   return (
-    <Dialog>
+    <Dialog defaultOpen>
       <DialogTrigger asChild>
         <Button
           size="icon"
@@ -27,7 +27,7 @@ function RulesDialog() {
           <DialogDescription>How to play the game</DialogDescription>
         </DialogHeader>
 
-        <ol className="h-full list-decimal space-y-2 overflow-y-auto pl-6">
+        <ol className="max-h-[80svh] list-decimal space-y-2 overflow-y-auto pl-6">
           <li>
             <strong>Objective:</strong> Guess the hidden word in six tries or
             fewer.
@@ -83,10 +83,6 @@ function RulesDialog() {
           <li>
             <strong>Losing:</strong> If you fail to guess the word in six tries,
             the game ends, and the hidden word is revealed.
-          </li>
-          <li>
-            <strong>Daily Challenge:</strong> A new word is available to solve
-            each day, adding to the excitement and anticipation!
           </li>
         </ol>
       </DialogContent>
